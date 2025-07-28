@@ -23,7 +23,7 @@ class Product:
                     f"Количество товаров в указанной категории было увеличено. Новая позиция не добавлена."
                 )
                 return product
-        return Product(**parameters)
+        return cls(**parameters)
 
     @property
     def price(self):
