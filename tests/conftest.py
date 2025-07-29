@@ -1,6 +1,10 @@
+from typing import Any
+
 import pytest
 
-from src.classes import Category, Product
+from src.category import Category
+from src.product import Product
+from src.product_iterator import ProductIterator
 
 
 @pytest.fixture
@@ -33,12 +37,19 @@ def second_category() -> Category:
 
 
 @pytest.fixture
-def product() -> Product:
+def product1() -> Product:
     return Product(
         name="Samsung Galaxy S23 Ultra",
         description="256GB, Серый цвет, 200MP камера",
         price=180000.0,
         quantity=5,
+    )
+
+
+@pytest.fixture
+def product2() -> Product:
+    return Product(
+        name="Iphone 15", description="512GB, Gray space", price=210000.0, quantity=8
     )
 
 
@@ -84,3 +95,8 @@ def json_data() -> list:
             ],
         },
     ]
+
+
+@pytest.fixture
+def product_iterator(first_category: Category) -> Any:
+    return ProductIterator(first_category)
