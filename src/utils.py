@@ -2,7 +2,8 @@ import json
 import os
 
 from logging_config import setup_logger
-from src.classes import Category, Product
+from src.category import Category
+from src.product import Product
 
 path_logger = os.path.join(os.getcwd(), "log")
 os.makedirs(path_logger, exist_ok=True)
