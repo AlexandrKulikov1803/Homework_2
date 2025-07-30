@@ -2,6 +2,8 @@ from src.product import Product
 
 
 class Category:
+    """Класс для хранения категории"""
+
     name: str
     description: str
     __products: list
@@ -11,6 +13,8 @@ class Category:
     product_count = 0
 
     def __init__(self, name, description, products=None):
+        """Конструктор для категории"""
+
         self.name = name
         self.description = description
         self.__products = products if products else []
@@ -20,16 +24,25 @@ class Category:
         Category.product_count += len(products) if products else 0
 
     def __str__(self):
+        """Метод для отображения информации пользователю о категории"""
+
         for product in self.__products:
             self.total_quantity += product.quantity
         return f"{self.name}, количество продуктов: {self.total_quantity} шт."
 
-    def add_product(self, product: Product):
-        self.__products.append(product)
-        Category.product_count += 1
+    def add_product(self, product):
+        """Метод для добавления продукта в категорию"""
+
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1
+        else:
+            raise TypeError
 
     @property
     def products(self):
+        """Метод для отображения информации пользователю о продуктах из категории"""
+
         products_str = ""
         for product in self.__products:
             products_str += f"{str(product)}\n"
@@ -37,4 +50,6 @@ class Category:
 
     @property
     def products_list(self):
+        """Метод возвращает список продуктов из категории"""
+
         return self.__products
