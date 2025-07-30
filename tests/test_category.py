@@ -4,7 +4,10 @@ from unittest.mock import patch
 import pytest
 
 from src.category import Category
+from src.lawn_grass import LawnGrass
 from src.product import Product
+from src.product_iterator import ProductIterator
+from src.smartphone import Smartphone
 
 
 def test_category_init(first_category: Category, second_category: Category) -> None:
@@ -37,6 +40,23 @@ def test_add_product(first_category: Category) -> None:
     assert len(first_category.products_list) == 4
 
 
+def test_add_product_error(first_category: Category) -> None:
+    with pytest.raises(TypeError):
+        first_category.add_product(1)
+
+
+def test_add_product_smartphone(
+    first_category: Category, smartphone1: Smartphone
+) -> None:
+    first_category.add_product(smartphone1)
+    assert first_category.products_list[-1].name == "Samsung Galaxy S23 Ultra"
+
+
+def test_add_product_grass(first_category: Category, grass1: LawnGrass) -> None:
+    first_category.add_product(grass1)
+    assert first_category.products_list[-1].name == "Газонная трава"
+
+
 def test_product_price_setter(capsys: Any, product1: Product) -> None:
     product1.price = -1000
     message = capsys.readouterr()
@@ -62,7 +82,7 @@ def test_category_str(first_category: Category) -> None:
     assert str(first_category) == "Смартфоны, количество продуктов: 27 шт."
 
 
-def test_product_iterator(product_iterator: Any) -> None:
+def test_product_iterator(product_iterator: ProductIterator) -> None:
     iter(product_iterator)
     assert product_iterator.index == 0
     assert next(product_iterator).name == "Samsung Galaxy S23 Ultra"
