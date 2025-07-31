@@ -1,3 +1,5 @@
+import pytest
+
 from src.product import Product
 
 
@@ -52,3 +54,8 @@ def test_product_str(product1: Product) -> None:
 
 def test_product_add(product1: Product, product2: Product) -> None:
     assert product1 + product2 == 2580000.0
+
+
+def test_product_add_error(product1: Product) -> None:
+    with pytest.raises(TypeError):
+        product1 + 1

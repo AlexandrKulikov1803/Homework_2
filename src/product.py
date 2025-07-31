@@ -1,4 +1,6 @@
 class Product:
+    """Класс для хранения продукта"""
+
     name: str
     description: str
     __price: float
@@ -6,6 +8,8 @@ class Product:
     all_products: list = []
 
     def __init__(self, name, description, price, quantity):
+        """Конструктор для продукта"""
+
         self.name = name
         self.description = description
         self.__price = price
@@ -13,13 +17,21 @@ class Product:
         Product.all_products.append(self)
 
     def __str__(self):
+        """Метод для отображения информации пользователю о продукте"""
+
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
     def __add__(self, other):
-        return self.price * self.quantity + other.price * other.quantity
+        """Метод для подсчёта суммарной стоимости продуктов одного класса с учётом количества"""
+
+        if type(other) is Product:
+            return self.price * self.quantity + other.price * other.quantity
+        raise TypeError
 
     @classmethod
     def new_product(cls, parameters):
+        """Метод для создания нового продукта и проверки его в наличии"""
+
         for product in cls.all_products:
             if product.name == parameters.get("name"):
                 product.quantity += parameters.get("quantity")
@@ -33,10 +45,13 @@ class Product:
 
     @property
     def price(self):
+        """Метод, который возвращает цену продукта"""
+
         return self.__price
 
     @price.setter
     def price(self, new_price):
+        """Метод для изменения цены продукта"""
         if new_price <= 0:
             print("Цена не должна быть нулевая или отрицательная")
         else:
