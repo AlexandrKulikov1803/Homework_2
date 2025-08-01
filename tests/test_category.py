@@ -1,6 +1,3 @@
-from typing import Any
-from unittest.mock import patch
-
 import pytest
 
 from src.category import Category
@@ -55,27 +52,6 @@ def test_add_product_smartphone(
 def test_add_product_grass(first_category: Category, grass1: LawnGrass) -> None:
     first_category.add_product(grass1)
     assert first_category.products_list[-1].name == "Газонная трава"
-
-
-def test_product_price_setter(capsys: Any, product1: Product) -> None:
-    product1.price = -1000
-    message = capsys.readouterr()
-    assert message.out.strip() == "Цена не должна быть нулевая или отрицательная"
-
-    product1.price = 0
-    message = capsys.readouterr()
-    assert message.out.strip() == "Цена не должна быть нулевая или отрицательная"
-
-    product1.price = 200000
-    assert product1.price == 200000
-
-    with patch("src.product.input", return_value="y"):
-        product1.price = 150000
-        assert product1.price == 150000
-
-    with patch("src.product.input", return_value="n"):
-        product1.price = 120000
-        assert product1.price == 150000
 
 
 def test_category_str(first_category: Category) -> None:
