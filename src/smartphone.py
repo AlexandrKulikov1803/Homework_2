@@ -19,10 +19,3 @@ class Smartphone(Product):
         self.model = model
         self.memory = memory
         self.color = color
-
-    def __add__(self, other):
-        """Метод для подсчёта суммарной стоимости продуктов одного класса с учётом количества"""
-
-        if type(other) is Smartphone:
-            return self.price * self.quantity + other.price * other.quantity
-        raise TypeError

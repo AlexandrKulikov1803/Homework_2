@@ -1,4 +1,8 @@
-class Product:
+from src.base_product import BaseProduct
+from src.print_mixin import PrintMixin
+
+
+class Product(BaseProduct, PrintMixin):
     """Класс для хранения продукта"""
 
     name: str
@@ -15,6 +19,7 @@ class Product:
         self.__price = price
         self.quantity = quantity
         Product.all_products.append(self)
+        super().__init__()
 
     def __str__(self):
         """Метод для отображения информации пользователю о продукте"""
@@ -24,7 +29,7 @@ class Product:
     def __add__(self, other):
         """Метод для подсчёта суммарной стоимости продуктов одного класса с учётом количества"""
 
-        if type(other) is Product:
+        if type(other) is self.__class__:
             return self.price * self.quantity + other.price * other.quantity
         raise TypeError
 
