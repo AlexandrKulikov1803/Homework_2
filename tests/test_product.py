@@ -14,6 +14,10 @@ def test_product_init(product1: Product) -> None:
     assert product1.price == 180000.0
     assert product1.quantity == 5
 
+    with pytest.raises(ValueError) as e:
+        Product("Бракованный товар", "Неверное количество", 1000.0, 0)
+    assert str(e.value) == "Товар с нулевым количеством не может быть добавлен"
+
 
 def test_new_product() -> None:
     Product.all_products = []

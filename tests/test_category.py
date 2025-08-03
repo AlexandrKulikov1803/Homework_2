@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from src.category import Category
@@ -66,3 +68,30 @@ def test_product_iterator(product_iterator: ProductIterator) -> None:
     assert next(product_iterator).name == "Xiaomi Redmi Note 11"
     with pytest.raises(StopIteration):
         next(product_iterator)
+
+
+def test_middle_price(
+    first_category: Category, category_with_product: Category
+) -> None:
+    assert first_category.middle_price() == 140333.33
+    assert category_with_product.middle_price() == 0
+
+
+def test_custom_exception(capsys: Any, first_category: Category) -> None:
+    assert len(first_category.products_list) == 3
+
+    product_add = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    first_category.add_product(product_add)
+    message = capsys.readouterr()
+    assert message.out.strip().split("\n")[-2] == "Задача добавлена успешно"
+    assert (
+        message.out.strip().split("\n")[-1] == "Обработка добавления задачи завершена"
+    )
+
+    # product_add = Product("Iphone 15", "512GB, Gray space", 210000.0, 0)
+    # first_category.add_product(product_add)
+    # message = capsys.readouterr()
+    # assert message.out.strip().split('\n')[-2] == "Товар с нулевым количеством не может быть добавлен"
+    # assert message.out.strip().split('\n')[-1] == "Обработка добавления задачи завершена"
+
+    assert len(first_category.products_list) == 4
