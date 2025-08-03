@@ -147,3 +147,8 @@ def grass2() -> LawnGrass:
         "5 дней",
         "Темно-зеленый",
     )
+
+
+@pytest.fixture
+def category_with_product() -> Category:
+    return Category(name="Пустая категория", description="Категория без продуктов")
