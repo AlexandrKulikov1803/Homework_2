@@ -17,9 +17,14 @@ class Product(BaseProduct, PrintMixin):
         self.name = name
         self.description = description
         self.__price = price
-        self.quantity = quantity
-        Product.all_products.append(self)
+        if quantity > 0:
+            self.quantity = quantity
+            Product.all_products.append(self)
+        else:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+
         super().__init__()
+
 
     def __str__(self):
         """Метод для отображения информации пользователю о продукте"""
