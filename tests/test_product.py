@@ -1,6 +1,11 @@
+from typing import Any
+from unittest.mock import patch
+
 import pytest
 
+from src.lawn_grass import LawnGrass
 from src.product import Product
+from src.smartphone import Smartphone
 
 
 def test_product_init(product1: Product) -> None:
@@ -48,14 +53,53 @@ def test_new_product() -> None:
     assert len(Product.all_products) == 2
 
 
+def test_product_price_setter(capsys: Any, product1: Product) -> None:
+    product1.price = -1000
+    message = capsys.readouterr()
+    assert (
+        message.out.strip().split("\n")[-1]
+        == "Цена не должна быть нулевая или отрицательная"
+    )
+
+    product1.price = 0
+    message = capsys.readouterr()
+    assert message.out.strip() == "Цена не должна быть нулевая или отрицательная"
+
+    product1.price = 200000
+    assert product1.price == 200000
+
+    with patch("src.product.input", return_value="y"):
+        product1.price = 150000
+        assert product1.price == 150000
+
+    with patch("src.product.input", return_value="n"):
+        product1.price = 120000
+        assert product1.price == 150000
+
+
 def test_product_str(product1: Product) -> None:
     assert str(product1) == "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт."
 
 
-def test_product_add(product1: Product, product2: Product) -> None:
+def test_product_add(
+    product1: Product,
+    product2: Product,
+    grass1: LawnGrass,
+    grass2: LawnGrass,
+    smartphone1: Smartphone,
+    smartphone2: Smartphone,
+) -> None:
     assert product1 + product2 == 2580000.0
+    assert grass1 + grass2 == 16750.0
+    assert smartphone1 + smartphone2 == 2580000.0
 
 
-def test_product_add_error(product1: Product) -> None:
+def test_product_add_error(
+    product1: Product, smartphone1: Smartphone, grass1: LawnGrass
+) -> None:
     with pytest.raises(TypeError):
         product1 + 1
+    with pytest.raises(TypeError):
+        smartphone1 + 1
+    with pytest.raises(TypeError):
+        grass1 + 1
