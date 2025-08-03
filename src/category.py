@@ -37,7 +37,9 @@ class Category:
         if isinstance(product, Product):
             try:
                 if product.quantity <= 0:
-                    raise ZeroQuantity("Товар с нулевым количеством не может быть добавлен")
+                    raise ZeroQuantity(
+                        "Товар с нулевым количеством не может быть добавлен"
+                    )
             except ZeroQuantity as e:
                 print(str(e))
             else:
@@ -66,6 +68,10 @@ class Category:
 
     def middle_price(self):
         try:
-            return round(sum([product.price for product in self.__products]) / len(self.__products), 2)
+            return round(
+                sum([product.price for product in self.__products])
+                / len(self.__products),
+                2,
+            )
         except ZeroDivisionError:
             return 0

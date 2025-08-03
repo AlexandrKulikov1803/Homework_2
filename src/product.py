@@ -25,7 +25,6 @@ class Product(BaseProduct, PrintMixin):
 
         super().__init__()
 
-
     def __str__(self):
         """Метод для отображения информации пользователю о продукте"""
 
